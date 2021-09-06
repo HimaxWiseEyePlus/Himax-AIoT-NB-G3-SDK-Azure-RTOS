@@ -56,4 +56,4 @@ Build person detection INT8 example and flash image. The resulted flash image wi
 ```
 make clean && make && make flash 
 ```
-After flash image generated, please download the flash image file to Himax-AIoT-NB-G3 EVB by UART, details are described [here](https://github.com/HimaxWiseEyePlus/Himax-AIoT-NB-G3-SDK-Azure-RTOS/tree/main/Himax-AIoT-NB-G3_user_guide#flash-image-update)
+After flash image generated, please download the flash image file to Himax-AIoT-NB-G3 EVB by UART, details are described [here](https://github.com/HimaxWiseEyePlus/Himax-AIoT-NB-G3-SDK-Azure-RTOS/tree/master/Himax-AIoT-NB-G3_user_guide#flash-image-update)

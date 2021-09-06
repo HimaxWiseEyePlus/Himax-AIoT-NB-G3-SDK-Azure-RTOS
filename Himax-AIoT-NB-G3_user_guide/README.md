@@ -7,8 +7,8 @@ Himax-AIoT-NB-G3 Platform EVB includes Himax WE-I Plus MCU, image sensor and ric
 
 - [Himax-AIoT-NB-G3 Platform EVB](#himax-aiot-nb-g3-platform-evb)
 - [System Requirement](#system-requirement)
-  - [Hardware Environment Setup](#hardware-environment-setup)
-  - [Software Tools](#software-tools)
+  - [Hardware Environment Setup](#system-requirement)
+  - [Software Tools](#system-requirement)
 - [Himax-AIoT-NB-G3 Platform EVB Startup](#himax-aiot-nb-g3-platform-evb-startup)
   - [Startup Flowchart](#startup-flowchart)
   - [Power ON EVB](#power-on-evb)
@@ -17,8 +17,7 @@ Himax-AIoT-NB-G3 Platform EVB includes Himax WE-I Plus MCU, image sensor and ric
   - [Check UART Message Output](#check-uart-message-output)
 - [Firmware Read Back Backup Flow](#firmware-read-back-backup-flow)
 - [Operators Network Setup](#operators-network-setup)
-- [Connect to Azure IoT Hub](#connect-to-azure-iot-hub)
-  - [Connect Azure Device Provisioning Service and IoTHub Device](#connect-azure-device-provisioning-service-and-iothub-device)
+- [Connect Azure Device Provisioning Service(DPS) and IoTHub Device](#connect-azure-device-provisioning-servicedps-and-iothub-device)
   - [Send Algorithm Metadata](#send-algorithm-metadata)
   - [Send Image](#send-image)
   - [Send Algorithm Metadata and Image](#send-algorithm-metadata-and-image)
@@ -163,58 +162,61 @@ In this chapter, you can know how to firmware image read back backup flow.
 - Backup firmware image Path
 Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\HMX_AIOT-NB-GX_GUI\read_0000.bin
 
-you can reference [`Flash Image Update`](https://github.com/HimaxWiseEyePlus/Himax-AIoT-NB-G3-SDK-Azure-RTOS/tree/main/Himax-AIoT-NB-G3_user_guide#flash-image-update) re-download `read_0000.bin` to EVB.
+you can reference [`Flash Image Update`](https://github.com/HimaxWiseEyePlus/Himax-AIoT-NB-G3-SDK-Azure-RTOS/tree/master/Himax-AIoT-NB-G3_user_guide#flash-image-update) re-download `read_0000.bin` to EVB.
+
 
 ## Operators Network Setup
- Define as follows value in Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\app\scenario_app\hx_aiot_nb_g3\azure_iothub.c 
-     #define ENABLE_OPERATORS_NETWORK_SETUP
-Operators network setting in Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\external\nb_iot\type1sc\type1sc.h
-	 #define OPERATORS_LPWAN_TPYE  <"choose support LPWAN for your SIM Card">
-	 #define OPERATORS_APN		 <"choose support APN for your SIM Card">
-	 #define OPERATORS_BAND        <"choose support BAND for your SIM Card">
-Himax-AIoT-NB-G3-SDK default operators network setting as follows:
-	 #define OPERATORS_LPWAN_TPYE   LPWAN_CATM1
-	 #define OPERATORS_APN		 "\"internet.iot\""
-	 #define OPERATORS_BAND		 LPWAN_BAND3
-##  Connect to Azure IoT Hub
-### Connect Azure Device Provisioning Service and IoTHub Device
-   Define as follows value in Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\app\scenario_app\hx_aiot_nb_g3\inc\azure_iothub.h 
-       #define AZURE_DPS_IOTHUB_STANDALONE_TEST 1
-       #define ENDPOINT                        "global.azure-devices-provisioning.net"
-       #define HOST_NAME                       <"Key-in your HOST_NAME">
-       #define REGISTRATION_ID                 <"Key-in your REGISTRATION_ID">
-       #define ID_SCOPE                        <"Key-in your ID_SCOPE">
-       #define DEVICE_SYMMETRIC_KEY            <"Key-in DEVICE_SYMMETRIC_KEY">
+    - Define as follows value in Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\app\scenario_app\hx_aiot_nb_g3\azure_iothub.c 
+    - #define ENABLE_OPERATORS_NETWORK_SETUP
+    -
+    - Operators network setting in Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\external\nb_iot\type1sc\type1sc.h 
+    - #define OPERATORS_LPWAN_TPYE		<"choose support LPWAN for your SIM Card">
+    - #define OPERATORS_APN			<"choose support APN for your SIM Card">
+    - #define OPERATORS_BAND		<"choose support BAND for your SIM Card">
+    -
+    - Himax-AIoT-NB-G3-SDK default operators network setting as follows:
+    - #define OPERATORS_LPWAN_TPYE		LPWAN_CATM1
+    - #define OPERATORS_APN			"\"internet.iot\""
+    - #define OPERATORS_BAND		LPWAN_BAND3
+    
+##  Connect Azure Device Provisioning Service(DPS) and IoTHub Device
+    - Define as follows value in Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\app\scenario_app\hx_aiot_nb_g3\inc\azure_iothub.h 
+    - #define AZURE_DPS_IOTHUB_STANDALONE_TEST 1
+    - #define ENDPOINT                        "global.azure-devices-provisioning.net"
+    - #define HOST_NAME                       <"Key-in your HOST_NAME">
+    - #define REGISTRATION_ID                 <"Key-in your REGISTRATION_ID">
+    - #define ID_SCOPE                        <"Key-in your ID_SCOPE">
+    - #define DEVICE_SYMMETRIC_KEY            <"Key-in DEVICE_SYMMETRIC_KEY">
       
 more information please reference the file:  
 <a href="docs/himax_WEI_Azure_RTOS_Device_getStartedDoc.pdf" target="_blank">himax_WEI_Azure_RTOS_Device_getStartedDoc</a>
       
 ## Send Algorithm Metadata
     - Algorithm Metadata structure(sample)
-     - humanPresence : 1(detect human) , 0(no human)
-     - upper_body_bbox.x : bounding box x-axis for detected human.
-     - upper_body_bbox.y : bounding box y-axis for detected human. 
-     - upper_body_bbox.width : bounding box width for detected human.
-     - upper_body_bbox.height : bounding box height for detected human.
+    - humanPresence : 1(detect human) , 0(no human)
+    - upper_body_bbox.x : bounding box x-axis for detected human.
+    - upper_body_bbox.y : bounding box y-axis for detected human. 
+    - upper_body_bbox.width : bounding box width for detected human.
+    - upper_body_bbox.height : bounding box height for detected human.
     - Change [azure_active_event]  value  in void tflitemicro_start() at Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\app\scenario_app\hx_aiot_nb_g3\hx_aiot_nb_g3.c  
-     - azure_active_event = ALGO_EVENT_SEND_RESULT_TO_CLOUD;
+    - azure_active_event = ALGO_EVENT_SEND_RESULT_TO_CLOUD;
      
 ## Send Image
-    - Change [azure_active_event] value in void tflitemicro_start() at Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_tflm-master\app\scenario_app\hx_aiot_nb\hx_aiot_nb.c  
-     - azure_active_event = ALGO_EVENT_SEND_IMAGE_TO_CLOUD;
+    - Change [azure_active_event] value in void tflitemicro_start() at Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\app\scenario_app\hx_aiot_nb\hx_aiot_nb_g3.c  
+    - azure_active_event = ALGO_EVENT_SEND_IMAGE_TO_CLOUD;
 
 ## Send Algorithm Metadata and Image
     - Change [azure_active_event] value in void tflitemicro_start() at Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\app\scenario_app\hx_aiot_nb_g3\hx_aiot_nb_g3.c  
-     - azure_active_event = ALGO_EVENT_SEND_RESULT_AND_IMAGE;
+    - azure_active_event = ALGO_EVENT_SEND_RESULT_AND_IMAGE;
 
 ## Send Custom JSON Format Data
     - You can send custom json format data to the cloud through send_cstm_data_to_cloud(unsigned char *databuf, int size, uint8_t send_type)
     - unsigned char *databuf: data buffer, data must be json format.
     - int size: data size.
-    - uint8_t send_type : Select SEND_CSTM_JSON_DATA
+    - uint8_t send_type : SEND_CSTM_JSON_DATA
 
 ## Enter Power Saving Mode
- Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\app\scenario_app\hx_aiot_nb_g3\azure_iothub.c 
+    - Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\app\scenario_app\hx_aiot_nb_g3\azure_iothub.c 
     - #define ENABLE_PMU
 ## Azure RTOS Startup
   - More detail information please reference [here](https://github.com/azure-rtos)
