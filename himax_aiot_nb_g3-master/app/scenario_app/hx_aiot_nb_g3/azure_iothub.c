@@ -1454,7 +1454,7 @@ void nbiot_service_thread_entry(ULONG parameter)
 	hx_drv_iomux_set_pmux(IOMUX_PGPIO13, 3);  //2:input 3:output
 	hx_drv_iomux_set_outvalue(IOMUX_PGPIO13, 1);
 
-#if ENABLE_OPERATORS_NETWORK_SETUP
+#ifdef ENABLE_OPERATORS_NETWORK_SETUP
 {
 	/* NB-IOT Type1SC Initial configuration. */
 	 static int  operators_network_setup_event = AT_CMD_TEST;
