@@ -32,7 +32,7 @@ Himax-AIoT-NB-G3 Platform EVB includes Himax WE-I Plus MCU, image sensor and ric
 
 ## Himax-AIoT-NB-G3 Platform EVB
 
-![alt text](images/himax_nbiot_evb.png)
+![alt text](images/aiot_nbiot_board-removebg-preview.png)
 
   1.	Himax WE-I Plus chip
   2.  Himax Debug Board
@@ -45,7 +45,9 @@ Himax-AIoT-NB-G3 Platform EVB includes Himax WE-I Plus MCU, image sensor and ric
   9.	GREEN LED x2 and RED LEDx1 and BLUE LEDx1
   10.	Micro USB cable: Debug Board (I2C/SPI/Flash Download)
 
-  <a href="docs/H013_HX6539_NB-IoT_1SC-DM_V10_20210622_BOM.pdf" target="_blank">Board Schematic PDF</a>
+Note:Connect with Himax-AIoT-NB-G3 and Debug mode simultaneously with USB cable in debug mode and Himax-AIoT-NB-G3 with USB cable in normal operaton mode.
+
+  <a href="docs/HX6539-A_HWUG(AIOT-NB-G3)_preliminary_v01_20210906.pdf" target="_blank">Hardware User Guide PDF</a>
 
 ## System Requirement
   - Hardware Environment Setup
