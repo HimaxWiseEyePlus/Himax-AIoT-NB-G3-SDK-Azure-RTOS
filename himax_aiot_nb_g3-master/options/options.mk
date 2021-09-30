@@ -194,13 +194,51 @@ SELECTED_CONFIG=$(BOARD_INFO)-$(BUILD_INFO)
 
 ## Objects Output Directory
 BOARD_OUT_DIR = $(OUT_DIR_PREFIX)$(BOARD_INFO)
-OUT_DIR = $(BOARD_OUT_DIR)/$(BUILD_INFO)
+ifeq ($(HOST_OS), Windows)
+	OUT_DIR = $(BOARD_OUT_DIR)\$(BUILD_INFO)
+else
+	OUT_DIR = $(BOARD_OUT_DIR)/$(BUILD_INFO)
+endif
+
+## WEI TOOL Directory
+ifeq ($(HOST_OS), Windows)
+	TOOL_DIR = $(EMBARC_ROOT)\tools
+else
+	TOOL_DIR = $(EMBARC_ROOT)/tools
+endif
+
+## Image Gen CSTM Tool Directory
+ifeq ($(HOST_OS), Windows)
+	IMAGE_GEN_TOOL_DIR = $(TOOL_DIR)\image_gen_cstm
+	IMAGE_GEN_TOOL_INPUT_DIR = $(IMAGE_GEN_TOOL_DIR)\input
+	IMAGE_GEN_TOOL_OUTPUT_DIR = $(IMAGE_GEN_TOOL_DIR)\output
+
+else
+	IMAGE_GEN_TOOL_DIR = $(TOOL_DIR)/image_gen_cstm
+	IMAGE_GEN_TOOL_INPUT_DIR = $(IMAGE_GEN_TOOL_DIR)/input
+	IMAGE_GEN_TOOL_OUTPUT_DIR = $(IMAGE_GEN_TOOL_DIR)/output
+endif
+
+## OTA Tool Directory
+
+
+ifeq ($(HOST_OS), Windows)
+	OTA_TOOL_DIR = $(TOOL_DIR)\OTA_Tool
+	OTA_IMG_DIR = $(OTA_TOOL_DIR)\img
+else
+	OTA_TOOL_DIR = $(TOOL_DIR)/OTA_Tool
+	OTA_IMG_DIR = $(OTA_TOOL_DIR)/img
+endif
 
 ##
 # Application Path and Name Setting
 ##
 APPL_NAME = $(strip $(APPL)_$(BUILD_INFO))
-APPL_FULL_NAME = $(strip $(OUT_DIR)/$(APPL_NAME))
+ifeq ($(HOST_OS), Windows)
+	APPL_FULL_NAME = $(strip $(OUT_DIR)\$(APPL_NAME))
+else
+	APPL_FULL_NAME = $(strip $(OUT_DIR)/$(APPL_NAME))
+endif
 APPL_OUT_DIR = $(OUT_DIR)/
 
 ##

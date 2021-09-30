@@ -1,3 +1,4 @@
+SHELL:=/bin/bash
 ## TCF Processing ##
 VALID_TCF = $(wildcard $(TCF))
 
@@ -139,6 +140,9 @@ help :
 	@$(ECHO) '  cfg         - Display build target configuration'
 	@$(ECHO) '  opt         - Display Current MAKE options'
 	@$(ECHO) '  spopt       - Display Supported MAKE options'
+	@$(ECHO) '  flash       - Generate image'
+	@$(ECHO) '  ota         - Copy elf and map file to ota img folder'
+	@$(ECHO) '  menuconfig  - Set parameters of image generation tool'
 	@$(ECHO) 'Available Configurations:'
 	@$(ECHO) '  BOARD=emsk|nsim|axs                         - Build for which board(EMSK, NSIM, AXS)'
 	@$(ECHO) '  BD_VER=11|22|23|10|1506|103                 - Board Version of development board'
@@ -272,16 +276,62 @@ gui : $(APPL_FULL_NAME).elf
 	$(DBG) $(DBG_HW_FLAGS) $< $(CMD_LINE)
 
 flash :
-ifeq ($(TOOLCHAIN), gnu)
-	@export PATH=$(strip $(GEN_TOOL_PATH))$(GEN_TOOL_DIR)/:$$PATH && \
-	cp $(APPL_FULL_NAME).elf $(strip $(GEN_TOOL_PATH))$(GEN_TOOL_DIR) && \
-	cd $(strip $(GEN_TOOL_PATH))$(GEN_TOOL_DIR) && \
-	$(GEN_TOOL_NAME) -e $(APPL_NAME).elf -s 1024 -o $(APPL_NAME).img && \
-	cp $(APPL_NAME)*.img $(CUR_PATH)/$(APPL_OUT_DIR) && \
-	rm $(APPL_NAME).elf $(APPL_NAME)*.img
-	@$(ECHO) "Image path:" $(CUR_PATH)/$(APPL_OUT_DIR)/$(APPL_NAME).img
+ifeq ($(TOOLCHAIN), gnu)	 
+	@$(ECHO) "===== GNU Generate CSTM Image Process ====="
+	$(CP) $(APPL_FULL_NAME).elf $(IMAGE_GEN_TOOL_INPUT_DIR)
+	@$(ECHO) "execute image_gen_cstm_gnu"
+	cd $(IMAGE_GEN_TOOL_DIR) &&\
+	chmod 777 image_gen_cstm_gnu &&\
+	chmod 777 sign_tool &&\
+	./image_gen_cstm_gnu ic config
+
+#	@$(ECHO) "===== Image for OTA ====="
+#	$(CP) $(IMAGE_GEN_TOOL_OUTPUT_DIR)/output.img $(OTA_IMG_DIR)/output.img
+#	$(CP) $(IMAGE_GEN_TOOL_OUTPUT_DIR)/layout.bin $(OTA_IMG_DIR)/layout.bin
+	@$(ECHO) "Image path:" $(IMAGE_GEN_TOOL_OUTPUT_DIR)/output.img
 else
-	$(error "please use gnu toolchain")
+	@$(ECHO) "===== Windows Generate CSTM Image Process ====="
+	$(CP) $(APPL_FULL_NAME).elf $(IMAGE_GEN_TOOL_INPUT_DIR)
+	$(CP) $(APPL_FULL_NAME).map $(IMAGE_GEN_TOOL_INPUT_DIR)
+	@$(ECHO) "execute image_gen_cstm.exe"
+ifeq ($(HOST_OS), Windows)
+	@cd $(IMAGE_GEN_TOOL_DIR) &&\
+	image_gen_cstm.exe
+else
+	cd $(IMAGE_GEN_TOOL_DIR) &&\
+	./image_gen_cstm.exe
+endif
+
+#	@$(ECHO) "===== Image for OTA ====="
+#	$(CP) $(IMAGE_GEN_TOOL_OUTPUT_DIR)\output.img $(OTA_IMG_DIR)\output.img
+#	$(CP) $(IMAGE_GEN_TOOL_OUTPUT_DIR)\layout.bin $(OTA_IMG_DIR)\layout.bin
+#	@$(ECHO) "OTA Image path:" $(IMAGE_GEN_TOOL_OUTPUT_DIR)\output.img
+endif
+	
+
+ota :
+#	@$(ECHO) "===== OTA Process ====="
+#ifeq ($(TOOLCHAIN), gnu)	 
+#	$(CP) $(IMAGE_GEN_TOOL_OUTPUT_DIR)/output.img $(OTA_IMG_DIR)/output.img
+#	$(CP) $(IMAGE_GEN_TOOL_OUTPUT_DIR)/layout.bin $(OTA_IMG_DIR)/layout.bin
+#else
+#	$(CP) $(IMAGE_GEN_TOOL_OUTPUT_DIR)\output.img $(OTA_IMG_DIR)\output.img
+#	$(CP) $(IMAGE_GEN_TOOL_OUTPUT_DIR)\layout.bin $(OTA_IMG_DIR)\layout.bin
+#endif
+#	@$(ECHO) "Please execute ota tool"
+
+menuconfig :
+	@$(ECHO) "Set parameters of image generation tool"
+ifeq ($(TOOLCHAIN), mw)
+ifeq ($(HOST_OS), Windows)
+	@cd $(IMAGE_GEN_TOOL_DIR) &&\
+	menuconfig_mw_v1.0.bat
+else
+	@./$(IMAGE_GEN_TOOL_DIR)/menuconfig_mw_v1.0.sh
+endif
+else
+	@chmod 777 $(IMAGE_GEN_TOOL_DIR)/menuconfig_gnu_v1.0.sh
+	@./$(IMAGE_GEN_TOOL_DIR)/menuconfig_gnu_v1.0.sh
 endif
 
 ifeq ($(BOARD), nsim)
