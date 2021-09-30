@@ -194,7 +194,7 @@ extern "C" int tflitemicro_algo_run(uint32_t image_addr, uint32_t image_width, u
 	error_reporter->Report(
 	       "score: %d\n", person_score);
 #endif
-	if(person_score > 0)
+	if(person_score > 100)
 	{
 		algoresult->humanPresence = true;
 		algoresult->num_tracked_human_targets = 1;
