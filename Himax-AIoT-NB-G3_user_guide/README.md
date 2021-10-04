@@ -18,6 +18,7 @@ Himax-AIoT-NB-G3 Platform EVB includes Himax WE-I Plus MCU, image sensor and ric
 - [Firmware Read Back Backup Flow](#firmware-read-back-backup-flow)
 - [Operators Network Setup](#operators-network-setup)
 - [Connect Azure Device Provisioning Service(DPS) and IoTHub Device](#connect-azure-device-provisioning-servicedps-and-iothub-device)
+- [Connect Azure IoT Central](#connect-azure-iot-central)
   - [Send Algorithm Metadata](#send-algorithm-metadata)
   - [Send Image](#send-image)
   - [Send Algorithm Metadata and Image](#send-algorithm-metadata-and-image)
@@ -185,11 +186,20 @@ you can reference [`Flash Image Update`](https://github.com/HimaxWiseEyePlus/Him
     - Define as follows value in Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\app\scenario_app\hx_aiot_nb_g3\inc\azure_iothub.h 
     - #define AZURE_DPS_IOTHUB_STANDALONE_TEST 1
     - #define ENDPOINT                        "global.azure-devices-provisioning.net"
-    - #define HOST_NAME                       <"Key-in your HOST_NAME">
-    - #define REGISTRATION_ID                 <"Key-in your REGISTRATION_ID">
-    - #define ID_SCOPE                        <"Key-in your ID_SCOPE">
-    - #define DEVICE_SYMMETRIC_KEY            <"Key-in DEVICE_SYMMETRIC_KEY">
-      
+    - #define HOST_NAME                       "Key-in your HOST_NAME"
+    - #define ID_SCOPE                        "Key-in your ID_SCOPE"
+    - #define DEVICE_ID                       "Key-in your DEVICE_ID"
+    - #define REGISTRATION_ID                 "Key-in your REGISTRATION_ID"
+    - #define DEVICE_SYMMETRIC_KEY            "Key-in DEVICE_SYMMETRIC_KEY"
+
+##  Connect Azure IoT Central
+    - Define as follows value in Himax-AIoT-NB-G3-SDK-Azure-RTOS-main\himax_aiot_nb_g3-master\app\scenario_app\hx_aiot_nb_g3\inc\azure_iothub.h 
+    - #define AZURE_DPS_IOTHUB_STANDALONE_TEST 0
+    - #define ENDPOINT                        "global.azure-devices-provisioning.net"
+    - #define REGISTRATION_ID                 "Key-in your REGISTRATION_ID"
+    - #define ID_SCOPE                        "Key-in your ID_SCOPE"
+    - #define DEVICE_SYMMETRIC_KEY            "Key-in DEVICE_SYMMETRIC_KEY"
+          
 more information please reference the file:  
 <a href="docs/himax_WEI_Azure_RTOS_Device_getStartedDoc.pdf" target="_blank">himax_WEI_Azure_RTOS_Device_getStartedDoc</a>
       
